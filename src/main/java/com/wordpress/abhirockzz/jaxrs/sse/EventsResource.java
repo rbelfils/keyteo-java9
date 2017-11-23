@@ -6,6 +6,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.sse.OutboundSseEvent;
 import javax.ws.rs.sse.Sse;
 import javax.ws.rs.sse.SseEventSink;
@@ -21,7 +22,7 @@ public class EventsResource {
     //one time
     @Path("fetch")
     @GET
-    @Produces("text/event-stream")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
     public void fetch(@Context Sse sse, @Context SseEventSink eSink) {
         OutboundSseEvent event = sse.newEvent("one-time-event", new Date().toString());
         eSink.send(event);
@@ -33,7 +34,7 @@ public class EventsResource {
     //registeration
     @Path("subscribe")
     @GET
-    @Produces("text/event-stream")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
     public void subscribe(@Context SseEventSink eSink) {
         broadcaster.register(eSink);
     }
